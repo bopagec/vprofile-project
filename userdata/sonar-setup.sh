@@ -15,6 +15,7 @@ EOT
 sudo apt-get update -y
 sudo apt-get install openjdk-11-jdk -y
 sudo update-alternatives --config java
+sudo apt-get install awscli -y
 java -version
 
 sudo apt update
@@ -25,9 +26,9 @@ sudo apt install postgresql postgresql-contrib -y
 #sudo -u postgres psql -c "SELECT version();"
 sudo systemctl enable postgresql.service
 sudo systemctl start  postgresql.service
-sudo echo "postgres:admin123" | chpasswd
+sudo echo "postgres:mjac" | chpasswd
 runuser -l postgres -c "createuser sonar"
-sudo -i -u postgres psql -c "ALTER USER sonar WITH ENCRYPTED PASSWORD 'admin123';"
+sudo -i -u postgres psql -c "ALTER USER sonar WITH ENCRYPTED PASSWORD 'mjac';"
 sudo -i -u postgres psql -c "CREATE DATABASE sonarqube OWNER sonar;"
 sudo -i -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE sonarqube to sonar;"
 systemctl restart  postgresql
@@ -45,7 +46,7 @@ sudo chown sonar:sonar /opt/sonarqube/ -R
 cp /opt/sonarqube/conf/sonar.properties /root/sonar.properties_backup
 cat <<EOT> /opt/sonarqube/conf/sonar.properties
 sonar.jdbc.username=sonar
-sonar.jdbc.password=admin123
+sonar.jdbc.password=mjac
 sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube
 sonar.web.host=0.0.0.0
 sonar.web.port=9000
